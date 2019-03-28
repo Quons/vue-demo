@@ -19,7 +19,7 @@ export default new Router({
     },
     {
       path: '/band-demo',
-      name: 'vue-demo',
+      name: 'brand-demo',
       component: BandDemo
     }
   ]
