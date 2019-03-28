@@ -24,7 +24,7 @@
           搜索框:
           <input v-model="keyword" class="form-control" type="text">
         </label>
-        <button class="btn btn-primary" @click="">搜索</button>
+        <button class="btn btn-primary" @click>搜索</button>
       </div>
     </div>
     <table class="table table-bordered table-hover table-striped">
@@ -58,18 +58,32 @@ export default {
       id: "",
       name: "",
       keyword: "",
-      list: [
-        { id: 1, name: "奔驰", cTime: new Date() },
-        { id: 2, name: "宝马", cTime: new Date() },
-        { id: 3, name: "别克", cTime: new Date() },
-        { id: 4, name: "福特", cTime: new Date() }
-      ]
+      list: []
     };
   },
+  created() {
+    this.getBrandList();
+  },
   methods: {
+    getBrandList() {
+      this.$http.get("http://localhost:3000/getBrandList").then(result => {
+        if (result.body.status != 99999) {
+          alert("error");
+        } else {
+          this.list = result.body.list;
+        }
+      });
+    },
     add() {
-      this.list.push({ id: this.id, name: this.name, cTime: new Date() });
+      console.log("fdfdfd");
+      this.$http
+        .post(
+          "http://localhost:3000/addBrand",
+          { id: this.id, name: this.name, cTime: new Date() }
+        )
+        .then(result => {});
       this.id = this.name = "";
+      this.getBrandList();
     },
     del(id) {
       // this.list.some((item, i) => {
