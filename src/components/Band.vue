@@ -66,8 +66,8 @@ export default {
   },
   methods: {
     getBrandList() {
-      this.$http.get("http://localhost:3000/getBrandList").then(result => {
-        if (result.body.status != 99999) {
+      this.$http.post("http://localhost:9082/brand/getBrandList","",{emulateJSON:true}).then(result => {
+        if (result.body.code != 99999) {
           alert("error");
         } else {
           this.list = result.body.list;
@@ -78,8 +78,8 @@ export default {
       console.log("fdfdfd");
       this.$http
         .post(
-          "http://localhost:3000/addBrand",
-          { id: this.id, name: this.name, cTime: new Date() }
+          "http://localhost:9082/brand/addBrand",
+          { name: this.name}
         )
         .then(result => {});
       this.id = this.name = "";
