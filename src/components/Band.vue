@@ -40,7 +40,7 @@
         <tr v-for="item in search(keyword)" :key="item.id">
           <td>{{item.id}}</td>
           <td v-text="item.name"></td>
-          <td>{{item.cTime}}</td>
+          <td>{{item.addTime|dateformat}}</td>
           <td>
             <a @click.prevent="del(item.id)">删除</a>
           </td>
@@ -66,38 +66,35 @@ export default {
   },
   methods: {
     getBrandList() {
-      this.$http.post("http://localhost:9082/brand/getBrandList","",{emulateJSON:true}).then(result => {
-        if (result.body.code != 99999) {
-          alert("error");
-        } else {
-          this.list = result.body.list;
-        }
-      });
+      this.$http
+        .post("brand/getBrandList", "")
+        .then(response => {
+          this.list = response.data.data;
+        });
     },
     add() {
-      console.log("fdfdfd");
       this.$http
-        .post(
-          "http://localhost:9082/brand/addBrand",
-          { name: this.name}
-        )
-        .then(result => {});
+        .post("brand/addBrand", { name: this.name })
+        .then(result => {
+          if (result.data.code == 99999) {
+            this.getBrandList();
+          } else {
+            alert(result.data.msg);
+          }
+        });
       this.id = this.name = "";
-      this.getBrandList();
     },
     del(id) {
-      // this.list.some((item, i) => {
-      //   if (item.id == id) {
-      //     this.list.splice(i, 1);
-      //     return true;
-      //   }
-      // });
-      var index = this.list.findIndex(item => {
-        if (item.id == id) {
-          return true;
-        }
-      });
-      this.list.splice(index);
+      console.log('id:' + id)
+      this.$http
+        .post("brand/deleteBrand", { id: id })
+        .then(result => {
+          if (result.data.code === 99999) {
+            this.getBrandList();
+          } else {
+            alert(result.data.msg)
+          }
+        })
     },
     search(keyword) {
       var resultList = [];

@@ -1,0 +1,33 @@
+li {
+  border: 1px dashed #999;
+  margin: 5px;
+  line-height: 35px;
+  padding-left: 5px;
+  width: 100%;
+  background-image: url("../images/test.jpg")
+}
+
+li:hover {
+  background-color: hotpink;
+  transition: all, 0.4s ease;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(80px);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.6s ease;
+}
+
+/*固定用法 */
+.v-move {
+  transition: all 0.6s ease;
+}
+
+.v-leave-active {
+  position: absolute;
+}
